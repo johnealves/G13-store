@@ -15,10 +15,6 @@
     "web-vitals": "^1.1.1"
   },
   "homepage": "https:\/\/johnealves.github.io/g13-store",
-"scripts": {
-  "predeploy": "npm run build",
-  "deploy": "gh-pages -d build",
-},
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
