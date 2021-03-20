@@ -1,0 +1,61 @@
+.ulShoppingCart {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardShoppingCartContainer {
+  border-top: 1px solid rgba(0, 0, 0, 0.301);
+  display: flex;
+  justify-content: space-between;
+  margin: 0.2rem 1rem;
+  padding: 20px 10px;
+}
+
+.cardShoppingCartContainer > div {
+  display: flex;
+}
+
+.cardShoppingCartContainer img {
+  width: 100px;
+}
+
+.cartItem {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.cartItem h6 {
+  max-width: 10rem;
+}
+
+.quant-cart input {
+  text-align: center;
+  width: 2rem;
+}
+
+.quantCartControl {
+  align-items: baseline;
+  display: flex;
+  justify-content: space-between;
+  flex-basis: 25rem;
+}
+
+.quantCartControl input {
+  max-width: 2rem;
+  height: 2rem;
+}
+
+.quantCartControl button {
+  max-width: 2rem;
+  height: 2rem;
+}
+
+.total-price-container {
+  align-items: baseline;
+  display: flex;
+  padding: 10px;
+}
+
+.total-price-container h5 {
+  margin: 0 1rem;
+}

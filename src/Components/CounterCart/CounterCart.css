@@ -1,0 +1,12 @@
+.counter-cart-container {
+  background-color: #ca3b3a;
+  border-radius: 50%;
+  color: white;
+  font-size: 1rem;
+  height: 25px;
+  left: 15px;
+  position: relative;
+  text-align: center;
+  top: -50px;
+  width: 25px;
+}

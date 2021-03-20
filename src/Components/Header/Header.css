@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap');
+
+.header-container {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 30px;
+  margin: 1rem 0;
+}
+
+.header-link-h1 {
+  color: #161616;
+  font-family: "Dancing Script";
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.header-link-container {
+  display: flex;
+}
+
+.header-link {
+  color: #161616;
+  font-size: 2rem;
+  text-decoration: none;
+  margin: 0 0.5rem;
+}
+
+.input-group {
+  width: 40%;
+}
