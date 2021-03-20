@@ -16,7 +16,7 @@ class Header extends Component {
     // const { quant } = this.state;
     return (
       <header className="header-container">
-        <h1><Link className="header-link-h1" exact to="/">G13 Store</Link></h1>
+        <h1><Link className="header-link-h1" exact to="/g13-store">G13 Store</Link></h1>
         <div className="input-group mb-3">
           <input
             className="form-control"
