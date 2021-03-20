@@ -66,7 +66,7 @@ class App extends React.Component {
         <Switch>
           <Route
             exact
-            path="/"
+            path="/g13-store"
             render={ (props) => (
               <Home
                 { ...props }
