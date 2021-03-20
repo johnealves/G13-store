@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './ProductCard.css';
-import { FaCartPlus } from 'react-icons/fa';
 import Cart from '../../services/Data';
 
 class ProductCard extends Component {
@@ -63,7 +62,6 @@ class ProductCard extends Component {
           onClick={ () => this.addCartItem(product) }
         >
           Adicionar ao carrinho
-          <FaCartPlus />
         </button>
       </li>
     );
