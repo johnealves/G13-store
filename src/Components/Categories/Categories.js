@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import * as api from '../../services/api';
 import './Categories.css';
 import Loading from '../Loading/Loading';
+import { connect } from 'react-redux';
+import { requestCategoryApi } from '../../actions';
 
-export default class Categories extends Component {
+class Categories extends Component {
   constructor(state) {
     super(state);
+
+    this.handleClick = this.handleClick.bind(this);
+
     this.state = {
       categories: [],
       loading: true,
@@ -19,21 +23,23 @@ export default class Categories extends Component {
     });
   }
 
+  handleClick({target: { value }}) {
+    const { setCategory, searchText } = this.props;
+    console.log(searchText)
+    setCategory(value, searchText)
+  }
   render() {
     const { categories, loading } = this.state;
-    const { handleCategory } = this.props;
-
     if (loading) return <Loading />;
-
     return (
       <div className="wrapper-category">
         {categories.map((category) => (
           (category.id !== 'MLB1540')
-            ? (
+            && (
               <li key={ category.id }>
                 <label data-testid="category" htmlFor={ category.id }>
                   <input
-                    onClick={ handleCategory }
+                    onClick={ this.handleClick }
                     type="radio"
                     id={ category.id }
                     name="selectedCategory"
@@ -43,7 +49,6 @@ export default class Categories extends Component {
                 </label>
               </li>
             )
-            : null
         ))}
 
       </div>
@@ -51,6 +56,12 @@ export default class Categories extends Component {
   }
 }
 
-Categories.propTypes = {
-  handleCategory: PropTypes.func.isRequired,
-};
+const mapStateToProps = (state) => ({
+  searchText: state.homeProductList.searchTextApi,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  setCategory: (value, searchText) => dispatch(requestCategoryApi(value, searchText))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Categories);

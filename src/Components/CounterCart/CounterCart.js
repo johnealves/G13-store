@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { number } from 'prop-types';
 import './CounterCart.css';
 
 class CounterCart extends Component {
@@ -15,9 +14,5 @@ class CounterCart extends Component {
     );
   }
 }
-
-CounterCart.propTypes = {
-  quant: number.isRequired,
-};
 
 export default CounterCart;

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { GrPrevious, GrNext } from 'react-icons/gr';
 import './PictureCardDetail.css';
 
@@ -60,10 +59,5 @@ class PictureCardDetail extends Component {
     );
   }
 }
-
-PictureCardDetail.propTypes = {
-  pictures: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  title: PropTypes.string.isRequired,
-};
 
 export default PictureCardDetail;

@@ -1,36 +1,43 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { addQuantity, newItemCart } from '../../actions';
 import './ProductCard.css';
-import Cart from '../../services/Data';
 
 class ProductCard extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
-    this.addCartItem = this.addCartItem.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
   }
 
-  addCartItem(product) {
-    const check = Cart.some((value) => value.title === product.title);
-    if (check) {
-      Cart.forEach((cartItem) => {
-        if (cartItem.title === product.title) {
-          cartItem.quantity += 1;
-        }
-      });
-    } else {
-      const { title, thumbnail, price, available_quantity: availableQuantity } = product;
-      Cart.push({
-        title,
-        thumbnail,
-        price,
+  handleAdd() {
+    const { addToCart, product, shoppingList, addQuantityCart } = this.props;
+    const { id } = product;
+    // empyt cart
+    if (shoppingList.length === 0) {
+      addToCart({
+        id,
         quantity: 1,
-        availableQuantity,
-      });
+      })
+      return;
     }
-    const { onClick } = this.props;
-    onClick();
+    // repeat check
+    let repeatItem = false
+    shoppingList.forEach((item) => {
+      if (item.id === id) {
+        repeatItem = true;
+        addQuantityCart(item)
+      }
+    })
+
+    // no repeat item
+    if (!repeatItem) {
+      addToCart({
+        id,
+        quantity: 1,
+      })
+    }
   }
 
   render() {
@@ -42,7 +49,7 @@ class ProductCard extends Component {
         <Link
           data-testid="product-detail-link"
           to={ {
-            pathname: `/${CategoryId}/${id}`,
+            pathname: `/g13-store/${CategoryId}/${id}`,
             search: text } }
           className="linkProductCard"
         >
@@ -59,7 +66,7 @@ class ProductCard extends Component {
           className="btn btn-danger"
           type="button"
           data-testid="product-add-to-cart"
-          onClick={ () => this.addCartItem(product) }
+          onClick={ this.handleAdd }
         >
           Adicionar ao carrinho
         </button>
@@ -68,10 +75,13 @@ class ProductCard extends Component {
   }
 }
 
-ProductCard.propTypes = {
-  product: PropTypes.shape().isRequired,
-  text: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-};
+const mapStateToProps = (state) => ({
+  shoppingList: state.shoppingStore.shoppingCart,
+})
 
-export default ProductCard;
+const mapDispatchToProps = (dispatch) => ({
+  addToCart: (id) => dispatch(newItemCart(id)),
+  addQuantityCart: (item) => dispatch(addQuantity(item))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductCard);

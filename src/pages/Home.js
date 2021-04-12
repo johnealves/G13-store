@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
-import { string, bool, arrayOf, shape, func } from 'prop-types';
 import ProductCard from '../Components/ProductCard/ProductCard';
 import Categories from '../Components/Categories/Categories';
-import Loading from '../Components/Loading/Loading';
+import { connect } from 'react-redux';
 import '../App.css';
+import Loading from '../Components/Loading/Loading';
+import { requestInitialHomeList } from '../actions';
 
-export default class Home extends Component {
-  constructor(props) {
-    super(props);
-
-    this.exeHandleyCategory = this.exeHandleyCategory.bind(this);
+class Home extends Component {
+  componentDidMount() {
+    this.renderInitialList()
   }
 
-  exeHandleyCategory(event) {
-    const { handleCategory } = this.props;
-    handleCategory(event);
+  renderInitialList() {
+    const { requestInitialList } = this.props;
+    requestInitialList()
   }
 
   render() {
-    const { searchText, loading, productList, CounterCart, handleCategory } = this.props;
+    const { homeProductList } = this.props;
+    const { productList, loading } = homeProductList;
     return (
       <div className="App">
         <div className="left-side form-check">
@@ -26,7 +26,6 @@ export default class Home extends Component {
             <label className="form-check-label" htmlFor="allCategory">
               <input
                 className="form-check-input"
-                onClick={ handleCategory }
                 id="allCategory"
                 type="radio"
                 name="selectedCategory"
@@ -44,12 +43,7 @@ export default class Home extends Component {
           { (loading) ? <Loading /> : null }
           {productList
             .map((product) => (
-              <ProductCard
-                key={ product.id }
-                product={ product }
-                text={ searchText }
-                onClick={ () => CounterCart() }
-              />
+              <ProductCard product={product}/>
             ))}
         </ul>
       </div>
@@ -57,10 +51,12 @@ export default class Home extends Component {
   }
 }
 
-Home.propTypes = {
-  searchText: string.isRequired,
-  loading: bool.isRequired,
-  productList: arrayOf(shape()).isRequired,
-  CounterCart: func.isRequired,
-  handleCategory: func.isRequired,
-};
+const mapStateToProps = (state) => ({
+  homeProductList: state.homeProductList,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  requestInitialList: () => dispatch(requestInitialHomeList()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Cart from '../../services/Data';
+import { connect } from 'react-redux';
+import { addQuantity, newItemCart, minusQuantity } from '../../actions';
 import './CardShoppingCart.css';
 
 class CardShoppingCart extends Component {
@@ -13,31 +13,37 @@ class CardShoppingCart extends Component {
     this.state = { quantity };
   }
 
-  increaseQuantity(product, quantity) {
-    const { product: { availableQuantity } } = this.props;
-    if (quantity >= 0 && quantity < availableQuantity) {
-      Cart.forEach((value) => {
-        if (value.title === product.title) {
-          value.quantity += 1;
-          this.setState({ quantity: quantity + 1 });
-        }
-      });
-      const { onClick } = this.props;
-      onClick();
-    }
+  increaseQuantity() {
+    const { product, shoppingList, addQuantityCart, setTotal } = this.props;
+    const { id } = product;
+    shoppingList.forEach((item) => {
+      if (item.id === id) {
+        // repeatItem = true;
+        addQuantityCart(item)
+        this.setState((prevState) => ({
+          quantity: prevState.quantity + 1
+        }))
+        this.totalPriceItem()
+      }
+    })
+    setTotal(product.price)
   }
 
-  decreaseQuantity(product, quantity) {
-    if (quantity > 0) {
-      Cart.forEach((value) => {
-        if (value.title === product.title) {
-          value.quantity -= 1;
-          this.setState({ quantity: quantity - 1 });
-        }
-      });
-      const { onClick } = this.props;
-      onClick();
-    }
+  decreaseQuantity() {
+    const { product, shoppingList, minusQuantityCart, setTotal } = this.props;
+    const { id } = product;
+    
+    shoppingList.forEach((item) => {
+      if (item.id === id) {
+        // repeatItem = true;
+        minusQuantityCart(item)
+        this.setState((prevState) => ({
+          quantity: prevState.quantity - 1
+        }))
+        this.totalPriceItem()
+      }
+    })
+    setTotal(-product.price)
   }
 
   totalPriceItem() {
@@ -67,16 +73,16 @@ class CardShoppingCart extends Component {
           <div>
             <button
               className="btn"
-              onClick={ () => this.decreaseQuantity(product, quantity) }
+              onClick={ this.decreaseQuantity }
               data-testid="product-decrease-quantity"
               type="button"
             >
               -
             </button>
-            <input className="form-group mb-3" value={ quantity } />
+            <input className="form-group mb-3 quantItem" value={ quantity } />
             <button
               className="btn"
-              onClick={ () => this.increaseQuantity(product, quantity) }
+              onClick={ this.increaseQuantity }
               data-testid="product-increase-quantity"
               type="button"
             >
@@ -93,15 +99,14 @@ class CardShoppingCart extends Component {
   }
 }
 
-CardShoppingCart.propTypes = {
-  product: PropTypes.shape({
-    title: PropTypes.string,
-    thumbnail: PropTypes.string,
-    price: PropTypes.number,
-    quantity: PropTypes.number,
-    availableQuantity: PropTypes.number,
-  }).isRequired,
-  onClick: PropTypes.func.isRequired,
-};
+const mapStateToProps = (state) => ({
+  shoppingList: state.shoppingStore.shoppingCart,
+})
 
-export default CardShoppingCart;
+const mapDispatchToProps = (dispatch) => ({
+  addToCart: (id) => dispatch(newItemCart(id)),
+  addQuantityCart: (item) => dispatch(addQuantity(item)),
+  minusQuantityCart: (item) => dispatch(minusQuantity(item)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CardShoppingCart);

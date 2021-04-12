@@ -1,30 +1,48 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import CardShoppingCart from '../Components/CardShoppingCart/CardShoppingCart';
-import Cart from '../services/Data';
 
-export default class ShoppingCart extends Component {
+class ShoppingCart extends Component {
   constructor() {
     super();
 
-    this.addQuantItemcart = this.addQuantItemcart.bind(this);
+    this.fetchShoppingCart = this.fetchShoppingCart.bind(this);
+    this.setTotal = this.setTotal.bind(this);
 
     this.state = {
-      item: Cart,
+      item: [],
       total: 0,
     };
   }
 
   componentDidMount() {
-    this.addQuantItemcart();
+    this.fetchShoppingCart()
   }
 
-  addQuantItemcart() {
-    let num = 0;
-    Cart.forEach((value) => {
-      num += value.quantity * value.price;
-    });
-    this.setState({ total: num });
+  async fetchShoppingCart() {
+    const { shoppingCartList } = this.props;
+    shoppingCartList.forEach(async (item) => {
+      const fecthID = await fetch(`https://api.mercadolibre.com/items?ids=${item.id}`)
+      const resp = await fecthID.json();
+      const product = await resp[0].body
+      const { id, title, thumbnail, price } = product;
+      this.setState((prevState) => ({
+        item: [...prevState.item, {
+          id,
+          title,
+          thumbnail,
+          price,
+          quantity: item.quantity,
+          }],
+        total: prevState.total + (price * item.quantity)
+      }))
+    })
+  }
+
+  setTotal(value) {
+    this.setState((prev) => ({
+      total: prev.total + value
+    }))
   }
 
   render() {
@@ -34,19 +52,13 @@ export default class ShoppingCart extends Component {
     }
     return (
       <div>
-        {/* <div>
-          <Link exact to="/">Volta a pagina inicial</Link>
-          <Link to="/Checkout" data-testid="checkout-products">
-            checkout
-          </Link>
-        </div> */}
         <ul className="ulShoppingCart">
           { item
             .map((product) => (
               <CardShoppingCart
                 product={ product }
                 key={ product.id }
-                onClick={ this.addQuantItemcart }
+                setTotal={ this.setTotal }
               />
             )) }
           <li className="cardShoppingCartContainer">
@@ -60,3 +72,9 @@ export default class ShoppingCart extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+ shoppingCartList: state.shoppingStore.shoppingCart,
+});
+
+export default connect(mapStateToProps)(ShoppingCart);

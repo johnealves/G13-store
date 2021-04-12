@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes, { func } from 'prop-types';
-import Cart from '../services/Data';
 import Loading from '../Components/Loading/Loading';
 import '../Components/ProductDetailCard/ProductDetails.css';
 import AvaliationForm from '../Components/AvaliationForm/AvaliationForm';
@@ -12,7 +10,6 @@ export default class ProductDetails extends Component {
     super(state);
 
     this.searchForID = this.searchForID.bind(this);
-    this.addCartItem = this.addCartItem.bind(this);
 
     this.state = {
       product: {},
@@ -36,32 +33,6 @@ export default class ProductDetails extends Component {
     this.setState({ product: selectedProduct, loading: false });
   }
 
-  addCartItem() {
-    const { product } = this.state;
-    const check = Cart.some((value) => value.title === product.title);
-    if (check) {
-      Cart.forEach((cartItem) => {
-        if (cartItem.title === product.title) {
-          // const add = document.querySelector('.numberToAdd');
-          // const num = parseInt(add.value, 10);
-          cartItem.quantity += 1;
-        }
-      });
-    } else {
-      // const add = document.querySelector('.numberToAdd');
-      // const num = parseInt(add.value, 10);
-      const { title, thumbnail, price } = product;
-      Cart.push({
-        title,
-        thumbnail,
-        price,
-        quantity: 1,
-      });
-    }
-    const { CounterCart } = this.props;
-    CounterCart();
-  }
-
   render() {
     const { product, loading } = this.state;
     return (
@@ -70,7 +41,7 @@ export default class ProductDetails extends Component {
           ? <Loading />
           : (
             <>
-              <ProductDeatailsCard product={ product } onClick={ this.addCartItem } />
+              <ProductDeatailsCard product={ product } />
               <div className="table-structure">
                 <h3>Caracteristicas</h3>
                 <ProductCarateristics product={ product } />
@@ -82,13 +53,3 @@ export default class ProductDetails extends Component {
     );
   }
 }
-
-ProductDetails.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      category: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
-  CounterCart: func.isRequired,
-};

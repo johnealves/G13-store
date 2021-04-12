@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { shape } from 'prop-types';
 import './ProductCaracter.css';
 
 class ProductCarateristics extends Component {
   render() {
     const { product } = this.props;
-    console.log(product);
     return (
       <table className="table-container">
         { product.attributes
@@ -19,9 +17,5 @@ class ProductCarateristics extends Component {
     );
   }
 }
-
-ProductCarateristics.propTypes = {
-  product: shape().isRequired,
-};
 
 export default ProductCarateristics;
