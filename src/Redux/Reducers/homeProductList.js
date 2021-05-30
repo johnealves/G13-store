@@ -1,7 +1,9 @@
 import { 
+  ADD_CATEGORY_NAME,
   REQUEST_INITIAL_CATEGORY_API_SUCCESS,
   REQUEST_INITIAL_LIST,
   REQUEST_INITIAL_LIST_SUCCESS,
+  RESET_FILTER,
   SAVE_CATEGORY_FIELD,
   SAVE_SEARCH_FIELD
 } from "../actions/actionTypes";
@@ -10,6 +12,7 @@ const INITIAL_STATE = {
   productList: [],
   searchTextApi: '',
   categoryApi: '',
+  categoryName: '',
   loading: false,
 }
 
@@ -42,6 +45,17 @@ const homeProductList = (state = INITIAL_STATE, action) => {
         ...state,
         productList: [...action.list],
         loading: action.loading,
+      }
+    case ADD_CATEGORY_NAME:
+      return {
+        ...state,
+        categoryName: action.name,
+      }
+    case RESET_FILTER:
+      return {
+        ...state,
+        categoryApi: '',
+        categoryName: '',
       }
     default:
       return state

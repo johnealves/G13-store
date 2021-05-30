@@ -1,4 +1,21 @@
+.checkout-container {
+  display: flex;
+  margin: 0 100px;
+}
+
 .checkout-form {
   display: flex;
   flex-direction: column;
+}
+
+.form-delivery {
+  background-color: rgb(235, 227, 227);
+  font-size: smaller;
+  margin: 1rem;
+  width: 400px;
+  padding: 15px;
+}
+
+.form-delivery .mb-1 :nth-child(2) {
+  font-size: smaller;
 }

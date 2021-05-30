@@ -3,7 +3,7 @@ import * as api from '../../services/api';
 import './Categories.css';
 import Loading from '../Loading/Loading';
 import { connect } from 'react-redux';
-import { requestCategoryApi } from '../../actions';
+import { categoryName, requestCategoryApi } from '../../Redux/actions';
 
 class Categories extends Component {
   constructor(state) {
@@ -23,10 +23,11 @@ class Categories extends Component {
     });
   }
 
-  handleClick({target: { value }}) {
-    const { setCategory, searchText } = this.props;
+  handleClick({target: { value, id }}) {
+    const { setCategory, searchText, setCategoryName } = this.props;
     console.log(searchText)
-    setCategory(value, searchText)
+    setCategory(id, searchText)
+    setCategoryName(value);
   }
   render() {
     const { categories, loading } = this.state;
@@ -43,7 +44,7 @@ class Categories extends Component {
                     type="radio"
                     id={ category.id }
                     name="selectedCategory"
-                    value={ category.id }
+                    value={ category.name }
                   />
                   {category.name}
                 </label>
@@ -61,7 +62,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  setCategory: (value, searchText) => dispatch(requestCategoryApi(value, searchText))
+  setCategory: (value, searchText) => dispatch(requestCategoryApi(value, searchText)),
+  setCategoryName: (value) => dispatch(categoryName(value))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Categories);

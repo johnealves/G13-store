@@ -1,0 +1,26 @@
+.select-payment {
+  display: flex;
+}
+
+.button-payment {
+  align-items: center;
+  border: 1px solid gray;
+  background-color: white;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  font-weight: 700;
+  height: 120px;
+  justify-content: space-evenly;
+  width: 200px;
+}
+
+.button-payment:hover {
+  /* background-color: whitesmoke; */
+  color:white;
+}
+
+.payment-icon {
+  font-size: 3rem;
+  z-index: 0;
+}

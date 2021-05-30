@@ -1,3 +1,10 @@
 .wrapper-category {
   width: 250px;
 }
+
+/* @media screen and (max-width: 1000px) {
+  
+  .wrapper-category {
+    display: none;
+  }
+} */

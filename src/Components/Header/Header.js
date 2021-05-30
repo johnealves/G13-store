@@ -5,7 +5,7 @@ import { IoBagCheckOutline, IoSearch } from 'react-icons/io5';
 import CounterCart from '../CounterCart/CounterCart';
 import './Header.css';
 import { connect } from 'react-redux';
-import { headerRequestApi, saveSearchField } from '../../actions';
+import { headerRequestApi, saveSearchField } from '../../Redux/actions';
 
 class Header extends Component {
   constructor(props) {

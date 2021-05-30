@@ -1,9 +1,10 @@
-import { ADD_QUANTITY, NEW_ITEM_CART } from "../actions/actionTypes";
+import { ADD_QUANTITY, ADD_TOTAL_CHECKOUT, NEW_ITEM_CART, RESET_TOTAL_CHECKOUT } from "../actions/actionTypes";
 
 const initialQuantity = JSON.parse(localStorage.getItem('shoppingCart'))
 
 const INITIAL_STATE = {
   shoppingCart: [],
+  totalCheckout: 0,
 }
 if (initialQuantity) {
   INITIAL_STATE.shoppingCart = [...initialQuantity];
@@ -24,6 +25,16 @@ const shoppingStore = (state = INITIAL_STATE, action) => {
         ...state,
         shoppingCart: state.shoppingCart
           .filter((item) => (item.id === action.id) ? item.quantity = action.quantity : item),
+      }
+    case ADD_TOTAL_CHECKOUT:
+      return {
+        ...state,
+        totalCheckout: state.totalCheckout + action.value
+      }
+    case RESET_TOTAL_CHECKOUT:
+      return {
+        ...state,
+        totalCheckout: 0
       }
     default:
       return state

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-// import ButtonsCardDetails from '../ButtonsCardDetails/ButtonsCardDetails';
-import { Link } from 'react-router-dom';
-import PictureCardDetail from '../PictureCardDetail/PictureCardDetail';
-import './ProductDetails.css';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { addQuantity, newItemCart } from '../../Redux/actions';
+import './ProductList.css';
 
-class ProductDeatailsCard extends Component {
+class ProductList extends Component {
   constructor(props) {
     super(props);
 
@@ -43,37 +41,36 @@ class ProductDeatailsCard extends Component {
   }
 
   render() {
-    const { product } = this.props;
-    const { title, price, pictures } = product;
+    const { product, text } = this.props;
+    const { title, thumbnail, price, category_id: CategoryId, id, shipping } = product;
+    const { free_shipping: freeShipping } = shipping;
     return (
-      <div data-testid="product-detail-name" className="productContainer">
-        <PictureCardDetail pictures={ pictures } title={ title } />
-        <div className="titleDetails">
-          <h3>{ title }</h3>
-          <h4>
+      <li data-testid="product" className="productListContainer">
+        <Link
+          data-testid="product-detail-link"
+          to={ {
+            pathname: `/g13-store/${CategoryId}/${id}`,
+            search: text } }
+          className="linkProductList"
+        >
+          <div className="product-list-img-container">
+            <img src={ thumbnail } alt={ `foto-${title}` } />
+          </div>
+          <h4>{ title }</h4>
+        </Link>
+        {/* { freeShipping ? <p data-testid="free-shipping">Frete gráris</p> : null } */}
+        <div>
             { price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) }
-          </h4>
-          {/* <ButtonsCardDetails product={ product } /> */}
-          <Link to="/g13-store/ShoppingCart">
-            <button
-              className="btn btn-danger detailsToAddCart"
-              type="button"
-              data-testid="product-detail-add-to-cart"
-              onClick={ this.handleAdd }
-            >
-              Comprar Agora
-            </button>
-          </Link>
           <button
-            className="btn btn-outline-danger detailsToAddCart"
+            className="btn btn-danger"
             type="button"
-            data-testid="product-detail-add-to-cart"
+            data-testid="product-add-to-cart"
             onClick={ this.handleAdd }
           >
             Adicionar ao carrinho
           </button>
         </div>
-      </div>
+      </li>
     );
   }
 }
@@ -87,4 +84,4 @@ const mapDispatchToProps = (dispatch) => ({
   addQuantityCart: (item) => dispatch(addQuantity(item))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductDeatailsCard);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductList);

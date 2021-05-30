@@ -1,10 +1,15 @@
-import { getProductsFromCategoryAndQuery } from "../services/api"
+import { getProductsFromCategoryAndQuery } from "../../services/api";
 import {
+  ADD_CATEGORY_NAME,
   ADD_QUANTITY,
+  ADD_TOTAL_CHECKOUT,
+  CHANGE_EXIBITION_MODE,
   NEW_ITEM_CART,
   REQUEST_INITIAL_CATEGORY_API_SUCCESS,
   REQUEST_INITIAL_LIST,
   REQUEST_INITIAL_LIST_SUCCESS,
+  RESET_FILTER,
+  RESET_TOTAL_CHECKOUT,
   SAVE_CATEGORY_FIELD,
   SAVE_SEARCH_FIELD
 } from "./actionTypes";
@@ -66,6 +71,15 @@ export const requestCategoryApi = (value, searchText) => {
   }
 }
 
+export const categoryName = (name) => ({
+  type: ADD_CATEGORY_NAME,
+  name
+})
+
+export const resetFilter = () => ({
+  type: RESET_FILTER
+})
+
 // Add new product
 
 export const newItemCart = (product) => ({
@@ -83,4 +97,21 @@ export const minusQuantity = ({id, quantity}) => ({
   type: ADD_QUANTITY,
   id,
   quantity: quantity - 1,
+})
+
+//exibition-mode
+
+export const changeExibitionMode = (mode) => ({
+  type: CHANGE_EXIBITION_MODE,
+  mode
+})
+
+export const addTotalCheckout = (value) => ({
+  type: ADD_TOTAL_CHECKOUT,
+  value,
+})
+
+export const resetTotalCheckout = (value) => ({
+  type: RESET_TOTAL_CHECKOUT,
+  value,
 })
