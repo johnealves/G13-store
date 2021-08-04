@@ -1,4 +1,4 @@
-import { ADD_QUANTITY, ADD_TOTAL_CHECKOUT, NEW_ITEM_CART, RESET_TOTAL_CHECKOUT } from "../actions/actionTypes";
+import { ADD_QUANTITY, ADD_TOTAL_CHECKOUT, DELETE_ITEM, NEW_ITEM_CART, RESET_TOTAL_CHECKOUT } from "../actions/actionTypes";
 
 const initialQuantity = JSON.parse(localStorage.getItem('shoppingCart'))
 
@@ -35,6 +35,11 @@ const shoppingStore = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         totalCheckout: 0
+      }
+    case DELETE_ITEM:
+      return {
+        ...state,
+        shoppingCart: state.shoppingCart.splice(action.index, 1)
       }
     default:
       return state

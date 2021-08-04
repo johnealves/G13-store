@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addQuantity, newItemCart, minusQuantity } from '../../Redux/actions';
+import { addQuantity, newItemCart, minusQuantity, deleteItem } from '../../Redux/actions';
 import './CardShoppingCart.css';
 
 class CardShoppingCart extends Component {
@@ -53,11 +53,19 @@ class CardShoppingCart extends Component {
     return quantity * price;
   }
 
+  removerItem(id) {
+    const { shoppingList, deleteItem } = this.props;
+    
+    shoppingList.forEach((item, index) => (item.id === id) ? console.log(shoppingList.splice(index, 1)): null);
+    // deleteItem(indice);
+  }
+
   render() {
-    const { product } = this.props;
-    const { title, thumbnail, price } = product;
+    const { product, shoppingList } = this.props;
+    const { id, title, thumbnail, price } = product;
     const { quantity } = this.state;
     const totalItem = this.totalPriceItem();
+    console.log(shoppingList)
     return (
       <li className="cardShoppingCartContainer">
         <div>
@@ -70,24 +78,29 @@ class CardShoppingCart extends Component {
           </div>
         </div>
         <div className="quantCartControl">
-          <div>
-            <button
-              className="btn"
-              onClick={ this.decreaseQuantity }
-              data-testid="product-decrease-quantity"
-              type="button"
-            >
-              -
-            </button>
-            <input className="form-group mb-3 quantItem" value={ quantity } />
-            <button
-              className="btn"
-              onClick={ this.increaseQuantity }
-              data-testid="product-increase-quantity"
-              type="button"
-            >
-              +
-            </button>
+          <div className="quantity-container">
+            <section className="alter-quantity">
+              <button
+                className="btn"
+                onClick={ this.decreaseQuantity }
+                data-testid="product-decrease-quantity"
+                type="button"
+              >
+                -
+              </button>
+              <input className="form-group quantItem" value={ quantity } />
+              <button
+                className="btn"
+                onClick={ this.increaseQuantity }
+                data-testid="product-increase-quantity"
+                type="button"
+              >
+                +
+              </button>
+            </section>
+            <div>
+              <p className="remove-item-button" onClick={ () => this.removerItem(id) }>Remover</p>
+            </div>
           </div>
           <div className="total-price-container">
             <h5>Total: </h5>
@@ -107,6 +120,7 @@ const mapDispatchToProps = (dispatch) => ({
   addToCart: (id) => dispatch(newItemCart(id)),
   addQuantityCart: (item) => dispatch(addQuantity(item)),
   minusQuantityCart: (item) => dispatch(minusQuantity(item)),
+  deleteItem: (indice) => dispatch(deleteItem(indice)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardShoppingCart);

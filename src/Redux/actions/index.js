@@ -4,6 +4,7 @@ import {
   ADD_QUANTITY,
   ADD_TOTAL_CHECKOUT,
   CHANGE_EXIBITION_MODE,
+  DELETE_ITEM,
   NEW_ITEM_CART,
   REQUEST_INITIAL_CATEGORY_API_SUCCESS,
   REQUEST_INITIAL_LIST,
@@ -97,6 +98,11 @@ export const minusQuantity = ({id, quantity}) => ({
   type: ADD_QUANTITY,
   id,
   quantity: quantity - 1,
+})
+
+export const deleteItem = (index) => ({
+  type: DELETE_ITEM,
+  index,
 })
 
 //exibition-mode

@@ -50,6 +50,32 @@
   height: 2rem;
 }
 
+.quantity-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 6rem;
+}
+
+.alter-quantity {
+  align-items: flex-end;
+  display: flex;
+  margin-bottom: 0;
+}
+
+.remove-item-button {
+  background-color: transparent;
+  border: none;
+  color: rgb(97, 89, 89);
+  font-size: smaller;
+  width: 100%;
+}
+
+.remove-item-button:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .total-price-container {
   align-items: baseline;
   display: flex;
